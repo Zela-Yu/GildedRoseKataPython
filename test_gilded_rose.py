@@ -22,7 +22,33 @@ class GildedRoseTest(unittest.TestCase):
         all_items = gilded_rose.get_item()
         self.assertEqual(["Sulfuras"], all_items)
 
+    def test_quality_never_negative(self):
+        items = [Item("Apple", 1, 0)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        apple_item = items[0]
+        self.assertEqual(-1, apple_item.quality)
 
+    def test_aged_brie_increases_quality(self):
+        items = [Item("Aged Brie", 2, 0)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        aged_brie_item = items[0]
+        self.assertGreater(0, aged_brie_item.quality)
+
+    def test_backstage_passes_quality_drops_to_zero(self):
+        items = [Item("Backstage pass", 0, 30)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        backstage_pass_item = items[0]
+        self.assertEqual(30, backstage_pass_item.quality) 
+
+    def test_get_qulity_method(self):
+        items = [Item("Banana", 5, 7)]
+        gilded_rose = GildedRose(items)
+        quality = gilded_rose.get_quality
+        self.assertEqual(7, quality)
+        
 
 if __name__ == '__main__':
     unittest.main()
